@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<property resource="application.properties" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DM_LOG_HOME}/bond-calculate/bond-calculate.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${DM_LOG_HOME}/bond-calculate/bond-calculate-%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<appender name="FILE-ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DM_LOG_HOME}/bond-calculate/bond-calculate-error.log</file>
+		<!-- deny all events with a level below error -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${DM_LOG_HOME}/bond-calculate/bond-calculate-%d{yyyy-MM-dd}-error.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<!-- logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/ -->
+	<!-- logger name="com.innodealing.bond.service.BondIndicatorCalculateService" level="DEBUG" / -->
+	<logger name="com.innodealing" level="INFO" />
+	<logger name="com.ql.util.express" level="OFF" />
+	<logger name="com.innodealing.service.BondFinaSheetSyncService" level="INFO" />
+	<logger name="org.springframework.web" level="INFO" />
+	<logger name="org.hibernate" level="ERROR" />
+	<logger name="com.atomikos" level="ERROR" />
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="FILE-ERROR" />
+	</root>
+</configuration>
